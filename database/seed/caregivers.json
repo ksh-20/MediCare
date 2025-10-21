@@ -1,0 +1,53 @@
+[
+  {
+    "firstName": "John",
+    "lastName": "Smith",
+    "email": "john.smith@example.com",
+    "phone": "+1234567890",
+    "role": "caregiver",
+    "isActive": true,
+    "preferences": {
+      "notifications": {
+        "email": true,
+        "sms": true,
+        "push": true
+      },
+      "timezone": "America/New_York",
+      "language": "en"
+    }
+  },
+  {
+    "firstName": "Sarah",
+    "lastName": "Johnson",
+    "email": "sarah.johnson@example.com",
+    "phone": "+1234567891",
+    "role": "caregiver",
+    "isActive": true,
+    "preferences": {
+      "notifications": {
+        "email": true,
+        "sms": false,
+        "push": true
+      },
+      "timezone": "America/Los_Angeles",
+      "language": "en"
+    }
+  },
+  {
+    "firstName": "Michael",
+    "lastName": "Brown",
+    "email": "michael.brown@example.com",
+    "phone": "+1234567892",
+    "role": "admin",
+    "isActive": true,
+    "preferences": {
+      "notifications": {
+        "email": true,
+        "sms": true,
+        "push": true
+      },
+      "timezone": "America/Chicago",
+      "language": "en"
+    }
+  }
+]

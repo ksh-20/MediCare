@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Aspirin",
+    "description": "Low-dose aspirin for cardiovascular protection",
+    "dosage": "81",
+    "unit": "mg",
+    "frequency": "once",
+    "instructions": "Take with food to reduce stomach upset",
+    "sideEffects": ["stomach upset", "bleeding risk", "allergic reactions"],
+    "contraindications": ["bleeding disorders", "stomach ulcers", "allergy to aspirin"],
+    "isPrescription": false
+  },
+  {
+    "name": "Metformin",
+    "description": "Diabetes medication to control blood sugar",
+    "dosage": "500",
+    "unit": "mg",
+    "frequency": "twice",
+    "instructions": "Take with meals to reduce stomach upset",
+    "sideEffects": ["nausea", "diarrhea", "stomach upset", "metallic taste"],
+    "contraindications": ["kidney disease", "liver disease", "heart failure"],
+    "isPrescription": true
+  },
+  {
+    "name": "Lisinopril",
+    "description": "ACE inhibitor for blood pressure control",
+    "dosage": "10",
+    "unit": "mg",
+    "frequency": "once",
+    "instructions": "Take at the same time each day",
+    "sideEffects": ["dry cough", "dizziness", "fatigue", "headache"],
+    "contraindications": ["pregnancy", "angioedema history", "bilateral renal artery stenosis"],
+    "isPrescription": true
+  },
+  {
+    "name": "Warfarin",
+    "description": "Blood thinner to prevent blood clots",
+    "dosage": "5",
+    "unit": "mg",
+    "frequency": "once",
+    "instructions": "Take at the same time each day, monitor INR regularly",
+    "sideEffects": ["bleeding", "bruising", "nausea", "diarrhea"],
+    "contraindications": ["active bleeding", "pregnancy", "severe liver disease"],
+    "isPrescription": true
+  },
+  {
+    "name": "Atorvastatin",
+    "description": "Statin medication to lower cholesterol",
+    "dosage": "20",
+    "unit": "mg",
+    "frequency": "once",
+    "instructions": "Take in the evening with or without food",
+    "sideEffects": ["muscle pain", "liver problems", "digestive issues"],
+    "contraindications": ["active liver disease", "pregnancy", "breastfeeding"],
+    "isPrescription": true
+  }
+]
