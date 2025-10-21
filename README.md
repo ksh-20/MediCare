@@ -90,7 +90,18 @@ medicare-assist/
    ```bash
    cd frontend
    npm install
+   npm install @react-pdf/renderer
+   npm install -D tailwindcss postcss autoprefixer
+   npx tailwindcss init -p
    ```
+   Add the following to top of src/styles/globals.css
+
+   ```bash
+   @tailwind base;
+   @tailwind components;
+   @tailwind utilities;
+   ```
+
 
 3. **Install Backend Dependencies**
    ```bash
@@ -157,9 +168,6 @@ medicare-assist/
 4. Push to the branch
 5. Create a Pull Request
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Support
 
