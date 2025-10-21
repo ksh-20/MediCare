@@ -35,6 +35,7 @@ A comprehensive caregiver-managed web application that ensures timely medication
 
 ### Frontend
 - **React.js** - UI framework
+- **CSS** - UI Styling
 - **Recharts** - Data visualization
 - **Howler.js** - Audio management
 - **react-pdf** - Report generation
@@ -81,7 +82,7 @@ medicare-assist/
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/ksh-20/MediCare
    cd medicare-assist
    ```
 
@@ -162,4 +163,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-For support, email support@medicare-assist.com or create an issue in the repository.
+For support, email kshitij24.srinivasan@gmail.com or create an issue in the repository.
