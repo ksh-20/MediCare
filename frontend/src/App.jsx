@@ -15,6 +15,7 @@ import MissedDoseAlerts from './components/adherence/MissedDoseAlerts'
 import AdherenceReport from './components/adherence/AdherenceReport'
 import ReportGenerator from './components/reports/ReportGenerator'
 import Layout from './components/layout/Layout'
+import './styles/globals.css'
 
 function App() {
   const { user, loading } = useAuth()
