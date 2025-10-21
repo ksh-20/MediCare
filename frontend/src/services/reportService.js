@@ -1,85 +1,74 @@
 import api from './api'
 
-export const reportService = {
-  async generateAdherenceReport(elderlyId, dateRange) {
+const reportService = {
+  // Generate adherence report
+  generateAdherenceReport: async (elderlyId, params = {}) => {
     try {
-      const response = await api.post('/reports/adherence', {
-        elderlyId,
-        dateRange
-      })
+      const response = await api.get(`/reports/adherence/${elderlyId}`, { params })
       return response.data
     } catch (error) {
-      throw new Error(error.response?.data?.message || 'Failed to generate adherence report')
+      console.error('Error generating adherence report:', error)
+      throw error
     }
   },
 
-  async generateMedicationReport(elderlyId, dateRange) {
+  // Generate medication report
+  generateMedicationReport: async (elderlyId, params = {}) => {
     try {
-      const response = await api.post('/reports/medication', {
-        elderlyId,
-        dateRange
-      })
+      const response = await api.get(`/reports/medication/${elderlyId}`, { params })
       return response.data
     } catch (error) {
-      throw new Error(error.response?.data?.message || 'Failed to generate medication report')
+      console.error('Error generating medication report:', error)
+      throw error
     }
   },
 
-  async generateFallReport(elderlyId, dateRange) {
+  // Generate comprehensive report
+  generateComprehensiveReport: async (elderlyId, params = {}) => {
     try {
-      const response = await api.post('/reports/fall', {
-        elderlyId,
-        dateRange
-      })
+      const response = await api.get(`/reports/comprehensive/${elderlyId}`, { params })
       return response.data
     } catch (error) {
-      throw new Error(error.response?.data?.message || 'Failed to generate fall report')
+      console.error('Error generating comprehensive report:', error)
+      throw error
     }
   },
 
-  async generateComprehensiveReport(elderlyId, dateRange) {
+  // Download report
+  downloadReport: async (elderlyId, params = {}) => {
     try {
-      const response = await api.post('/reports/comprehensive', {
-        elderlyId,
-        dateRange
-      })
-      return response.data
-    } catch (error) {
-      throw new Error(error.response?.data?.message || 'Failed to generate comprehensive report')
-    }
-  },
-
-  async downloadReport(reportId, format = 'pdf') {
-    try {
-      const response = await api.get(`/reports/${reportId}/download`, {
-        params: { format },
+      const response = await api.get(`/reports/download/${elderlyId}`, { 
+        params,
         responseType: 'blob'
       })
       return response.data
     } catch (error) {
-      throw new Error(error.response?.data?.message || 'Failed to download report')
+      console.error('Error downloading report:', error)
+      throw error
     }
   },
 
-  async getReportHistory(elderlyId) {
+  // Get report history
+  getReportHistory: async (params = {}) => {
     try {
-      const response = await api.get(`/reports/history/${elderlyId}`)
+      const response = await api.get('/reports/history', { params })
       return response.data
     } catch (error) {
-      throw new Error(error.response?.data?.message || 'Failed to get report history')
+      console.error('Error getting report history:', error)
+      throw error
     }
   },
 
-  async scheduleReport(elderlyId, reportType, schedule) {
+  // Delete report
+  deleteReport: async (reportId) => {
     try {
-      const response = await api.post('/reports/schedule', {
-        elderlyId,
-        reportType,
-        schedule
-      })
+      const response = await api.delete(`/reports/${reportId}`)
       return response.data
     } catch (error) {
-      throw new Error(error.response?.data?.message || 'Failed to schedule report')
+      console.error('Error deleting report:', error)
+      throw error
     }
   }
 }
+
+export { reportService }
