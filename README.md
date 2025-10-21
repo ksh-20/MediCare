@@ -1,4 +1,4 @@
-# MediCare Assist - Elderly Medication Management System
+# MediCare Assist - Medicine Reminder System For Elderly People
 
 A comprehensive caregiver-managed web application that ensures timely medication intake for elderly individuals through automated reminders and AI-powered features.
 
@@ -64,9 +64,8 @@ medicare-assist/
 ├── frontend/          # React.js Frontend
 ├── backend/           # Node.js + Express Backend
 ├── ai-services/       # Python AI/ML Services
-├── database/          # Database schemas and seed data
-├── docs/              # Documentation
-└── tests/             # Test files
+├── database/          # Database schemas and seed data       
+└── docs/              # Documentation
 ```
 
 ## Quick Start
