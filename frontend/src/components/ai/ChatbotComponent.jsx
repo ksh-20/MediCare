@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Send } from "lucide-react";
-import { aiService } from "../../services/aiService"; // ✅ Using your aiService to connect with backend (Gemini API)
+import { aiService } from "../../services/aiService"; 
 
-// MAIN COMPONENT
+
 const ChatbotComponent = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -28,7 +28,7 @@ const ChatbotComponent = () => {
 
     try {
       // ✅ Send message to backend FastAPI which connects to Gemini
-      const res = await aiService.chat(userMsg.text);
+      const res = await aiService.chat(userMsg.text, [], null);
 
       // Gemini API response (adjust based on backend return)
       const botReply = res.reply || res.response || "I'm here to help.";
@@ -65,7 +65,7 @@ const ChatbotComponent = () => {
         <div className="flex-1 bg-gray-50 p-4 rounded-xl overflow-y-auto space-y-4 mb-4 border border-gray-200">
           {messages.length === 0 && (
             <p className="text-gray-400 text-center mt-20 italic">
-              Hello! I’m your AI assistant powered by Gemini. <br />
+              Hello! I’m your AI Assistant. <br />
               Ask me about your schedule, medications, or general health tips.
             </p>
           )}

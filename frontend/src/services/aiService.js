@@ -9,9 +9,9 @@ export const aiService = {
     try {
       // Send chat message to Gemini FastAPI backend
       const res = await axios.post(`${CHATBOT_BASE}/chat`, {
-        message,
-        context,
-        user_id,
+        message : message,
+        context : context,
+        user_id : user_id,
       });
       return res.data;
     } catch (err) {

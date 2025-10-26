@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Union
 import uvicorn
 import os
 from dotenv import load_dotenv
@@ -42,7 +42,7 @@ nlp_processor = NLPProcessor()
 # Request/response models
 class ChatRequest(BaseModel):
     message: str
-    context: Optional[Dict[str, Any]] = {}
+    context: Optional[List[Dict[str, Any]]] = []
     user_id: Optional[str] = None
 
 class ChatResponse(BaseModel):
