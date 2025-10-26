@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import { useAuth } from './hooks/useAuth'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import Login from './components/auth/Login'
@@ -26,17 +27,32 @@ import './styles/globals.css'
 
 function App() {
   const { user, loading } = useAuth()
+  const [isDarkMode, setIsDarkMode] = useState(false)
+
+  // Initialize dark mode based on user's system preference
+  useEffect(() => {
+    const darkPreferred = window.matchMedia('(prefers-color-scheme: dark)').matches
+    if (darkPreferred) {
+      setIsDarkMode(true)
+      document.documentElement.classList.add('dark')
+    }
+  }, [])
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode)
+    document.documentElement.classList.toggle('dark')
+  }
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
       </div>
     )
   }
 
   return (
-    <div className="App">
+    <div className={`App min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300`}>
       <Routes>
         {/* Public Routes */}
         <Route 
@@ -49,7 +65,7 @@ function App() {
         />
 
         {/* Protected Routes wrapped in Layout */}
-        <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+        <Route element={<ProtectedRoute><Layout toggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode} /></ProtectedRoute>}>
           {/* Default redirect */}
           <Route index element={<Navigate to="/dashboard" replace />} />
 
