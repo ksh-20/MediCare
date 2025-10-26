@@ -20,6 +20,7 @@ const adherenceRoutes = require('./routes/adherenceRoutes')
 const alertRoutes = require('./routes/alertRoutes')
 const reportRoutes = require('./routes/reportRoutes')
 const fallRoutes = require('./routes/fallRoutes')
+const chatRoutes = require('./routes/chatRoutes')
 
 // Import middleware
 const errorHandler = require('./middleware/errorHandler')
@@ -85,6 +86,7 @@ app.use('/api/adherence', authenticateToken, adherenceRoutes)
 app.use('/api/alerts', authenticateToken, alertRoutes)
 app.use('/api/reports', authenticateToken, reportRoutes)
 app.use('/api/fall', authenticateToken, fallRoutes)
+app.use("/api/chat", chatRoutes)
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {

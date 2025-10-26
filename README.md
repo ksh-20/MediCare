@@ -90,6 +90,7 @@ medicare-assist/
    cd frontend
    npm install
    npm install @react-pdf/renderer
+   npm install react-hot-toast --legacy-peer-deps
    npm install -D tailwindcss postcss autoprefixer
    npx tailwindcss init -p
    ```
@@ -112,6 +113,7 @@ medicare-assist/
    ```bash
    cd ../backend
    npm install
+   npm install @google/generative-ai
    ```
 
 4. **Install AI Services Dependencies**
@@ -146,7 +148,10 @@ medicare-assist/
    CHATBOT_SERVICE_URL=http://localhost:8001 
    PILL_ID_SERVICE_URL=http://localhost:8002 
    FALL_DETECTION_SERVICE_URL=http://localhost:8003
+   GEMINI_API_KEY=...
    ```
+
+   Go to https://aistudio.google.com/app/api-keys to create Gemini API Key.
 
    Frontend env
 
