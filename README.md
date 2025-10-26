@@ -127,13 +127,34 @@ medicare-assist/
    ```
 
 5. **Environment Setup**
+   
+   Backend env - Replace '...' with actual values, use the following command to generate jwt secret and refresh secret tokens(run it once for each)
+
    ```bash
-   # Copy environment files
-   cp frontend/.env.example frontend/.env
-   cp backend/.env.example backend/.env
-   cp ai-services/chatbot/.env.example ai-services/chatbot/.env
-   cp ai-services/pill-identification/.env.example ai-services/pill-identification/.env
-   cp ai-services/fall-detection/.env.example ai-services/fall-detection/.env
+   node -e "console.log(require('crypto').randomBytes(64).toString('hex'))" #for windows powershell
+   ```
+
+   ```bash
+   MONGODB_URI=...
+   JWT_SECRET=...
+   JWT_REFRESH_SECRET=...
+   PORT=5000
+   CORS_ORIGIN=http://localhost:5173
+   TWILIO_ACCOUNT_SID=...
+   TWILIO_AUTH_TOKEN=...
+   TWILIO_PHONE_NUMBER=...
+   CHATBOT_SERVICE_URL=http://localhost:8001 
+   PILL_ID_SERVICE_URL=http://localhost:8002 
+   FALL_DETECTION_SERVICE_URL=http://localhost:8003
+   ```
+
+   Frontend env
+
+   ```bash
+   VITE_API_URL=http://localhost:5000/api
+   VITE_CHATBOT_URL=http://localhost:8001
+   VITE_PILL_ID_URL=http://localhost:8002
+   VITE_FALL_DETECTION_URL=http://localhost:8003
    ```
 
 6. **Start Development Servers**
