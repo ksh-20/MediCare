@@ -16,21 +16,25 @@ function ElderlyList() {
   }, [])
 
   useEffect(() => {
-    // Filter elderly based on search term
-    const filtered = elderly.filter(patient =>
-      patient.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      patient.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      patient.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      patient.phone.includes(searchTerm)
-    )
+    const filtered = Array.isArray(elderly)
+      ? elderly.filter(patient =>
+          patient.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          patient.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          patient.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          patient.phone.includes(searchTerm)
+        )
+      : []
     setFilteredElderly(filtered)
   }, [elderly, searchTerm])
 
   const loadElderly = async () => {
     try {
       setLoading(true)
-      const data = await elderlyService.getAllElderly()
-      setElderly(data)
+      const res = await elderlyService.getAllElderly()
+      
+      // Check if response has a "data" property
+      const patients = Array.isArray(res) ? res : res.data
+      setElderly(patients)
     } catch (error) {
       toast.error('Failed to load elderly patients')
       console.error('Error loading elderly:', error)
