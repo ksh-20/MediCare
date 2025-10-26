@@ -1,5 +1,5 @@
-import express from "express";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+const express = require("express");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const router = express.Router();
 
@@ -10,8 +10,8 @@ router.post("/", async (req, res) => {
   try {
     const { message, context } = req.body;
 
-    // Use the Gemini model
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    // Use the Gemini 2.0 Flash model
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const prompt = context
       ? `${context}\nUser: ${message}`
@@ -27,4 +27,4 @@ router.post("/", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;
