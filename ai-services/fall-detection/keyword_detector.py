@@ -7,7 +7,6 @@ import librosa
 import soundfile as sf
 import io
 from datetime import datetime
-import webrtcvad
 import speech_recognition as sr
 
 class KeywordDetector:
@@ -22,9 +21,6 @@ class KeywordDetector:
         # Initialize speech recognition
         self.recognizer = sr.Recognizer()
         self.microphone = sr.Microphone()
-        
-        # Initialize VAD
-        self.vad = webrtcvad.Vad(2)  # Aggressiveness level 2
         
         # Audio processing parameters
         self.sample_rate = 16000

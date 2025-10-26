@@ -7,9 +7,9 @@ scipy
 scikit-learn
 tensorflow
 pyaudio
-webrtcvad
 requests
 python-multipart
 pydantic
 python-dotenv
 asyncio-mqtt
+speechrecognition

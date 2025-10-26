@@ -10,7 +10,6 @@ from datetime import datetime
 import pickle
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
-import webrtcvad
 
 class AudioFallDetector:
     def __init__(self):
@@ -24,9 +23,6 @@ class AudioFallDetector:
         
         # Load pre-trained model if available
         self._load_model()
-        
-        # Initialize VAD (Voice Activity Detection)
-        self.vad = webrtcvad.Vad(2)  # Aggressiveness level 2 (0-3)
         
         # Audio processing parameters
         self.sample_rate = 16000
@@ -196,27 +192,27 @@ class AudioFallDetector:
             return {}
     
     def _calculate_voice_activity_ratio(self, audio: np.ndarray) -> float:
-        """Calculate the ratio of voice activity in the audio"""
+        """Estimate ratio of active (non-silent) frames in audio using energy-based VAD."""
         try:
-            # Convert to 16-bit PCM for VAD
-            audio_16bit = (audio * 32767).astype(np.int16)
+            # Frame length for analysis (20 ms)
+            frame_length = int(self.sample_rate * 0.02)
+            hop_length = frame_length // 2
             
-            # Process in frames
-            frame_length = int(self.sample_rate * 0.02)  # 20ms frames
-            frames = [audio_16bit[i:i+frame_length] for i in range(0, len(audio_16bit), frame_length)]
+            # Compute short-time energy
+            energies = np.array([
+                np.sum(np.abs(audio[i:i+frame_length])**2)
+                for i in range(0, len(audio) - frame_length, hop_length)
+            ])
             
-            voice_frames = 0
-            total_frames = len(frames)
+            # Normalize and threshold energy
+            if len(energies) == 0:
+                return 0.0
             
-            for frame in frames:
-                if len(frame) == frame_length:
-                    try:
-                        if self.vad.is_speech(frame.tobytes(), self.sample_rate):
-                            voice_frames += 1
-                    except:
-                        pass
+            energies = energies / np.max(energies)
+            threshold = 0.02  # Energy threshold for speech/non-speech
+            active_frames = np.sum(energies > threshold)
             
-            return voice_frames / total_frames if total_frames > 0 else 0.0
+            return active_frames / len(energies)
             
         except Exception as e:
             print(f"Error calculating voice activity ratio: {e}")
