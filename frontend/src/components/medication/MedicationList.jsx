@@ -34,8 +34,9 @@ function MedicationList() {
   const loadMedications = async () => {
     try {
       setLoading(true)
-      const data = await medicationService.getAllMedications()
-      setMedications(data)
+      const res = await medicationService.getAllMedications()
+      const meds = Array.isArray(res) ? res : res.data
+      setMedications(meds)
     } catch (error) {
       toast.error('Failed to load medications')
       console.error('Error loading medications:', error)
