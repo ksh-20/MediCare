@@ -127,12 +127,12 @@ function Register() {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="firstName" className="form-label">
+                <label htmlFor="firstName" className="form-label" style={{color: 'darkblue'}}>
                   First Name
                 </label>
-                <div className="relative">
+                <div className="relative" style={{color: 'black'}}>
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <User className="h-5 w-5 text-gray-400" />
+                    <User className="h-5 w-5 text-gray-700" />
                   </div>
                   <input
                     id="firstName"
@@ -154,8 +154,8 @@ function Register() {
                 )}
               </div>
 
-              <div>
-                <label htmlFor="lastName" className="form-label">
+              <div style={{color: 'black'}}>
+                <label htmlFor="lastName" className="form-label" style={{color: 'darkblue'}}>
                   Last Name
                 </label>
                 <input
@@ -179,12 +179,12 @@ function Register() {
             </div>
 
             <div>
-              <label htmlFor="email" className="form-label">
+              <label htmlFor="email" className="form-label" style={{color: 'darkblue'}}>
                 Email address
               </label>
-              <div className="relative">
+              <div className="relative" style={{color: 'black'}}>
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
+                  <Mail className="h-5 w-5 text-gray-700" />
                 </div>
                 <input
                   id="email"
@@ -207,12 +207,12 @@ function Register() {
             </div>
 
             <div>
-              <label htmlFor="phone" className="form-label">
+              <label htmlFor="phone" className="form-label" style={{color: 'darkblue'}}>
                 Phone Number
               </label>
-              <div className="relative">
+              <div className="relative" style={{color: 'black'}}>
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Phone className="h-5 w-5 text-gray-400" />
+                  <Phone className="h-5 w-5 text-gray-700" />
                 </div>
                 <input
                   id="phone"
@@ -235,12 +235,12 @@ function Register() {
             </div>
 
             <div>
-              <label htmlFor="password" className="form-label">
+              <label htmlFor="password" className="form-label" style={{color: 'darkblue'}}>
                 Password
               </label>
-              <div className="relative">
+              <div className="relative" style={{color: 'black'}}>
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
+                  <Lock className="h-5 w-5 text-gray-700" />
                 </div>
                 <input
                   id="password"
@@ -259,9 +259,9 @@ function Register() {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                    <EyeOff className="h-5 w-5 text-gray-700 hover:text-gray-600" />
                   ) : (
-                    <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                    <Eye className="h-5 w-5 text-gray-700 hover:text-gray-600" />
                   )}
                 </button>
               </div>
@@ -274,12 +274,12 @@ function Register() {
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="form-label">
+              <label htmlFor="confirmPassword" className="form-label" style={{color: 'darkblue'}}>
                 Confirm Password
               </label>
-              <div className="relative">
+              <div className="relative" style={{color: 'black'}}>
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
+                  <Lock className="h-5 w-5 text-gray-700" />
                 </div>
                 <input
                   id="confirmPassword"
@@ -298,9 +298,9 @@ function Register() {
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                   {showConfirmPassword ? (
-                    <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                    <EyeOff className="h-5 w-5 text-gray-700 hover:text-gray-600" />
                   ) : (
-                    <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                    <Eye className="h-5 w-5 text-gray-700 hover:text-gray-600" />
                   )}
                 </button>
               </div>

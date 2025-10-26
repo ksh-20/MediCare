@@ -105,10 +105,10 @@ function Login() {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="form-label">
+              <label htmlFor="email" className="form-label" style={{color: 'darkblue'}}>
                 Email address
               </label>
-              <div className="relative">
+              <div className="relative" style={{color: 'black'}}>
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Mail className="h-5 w-5 text-gray-400" />
                 </div>
@@ -133,10 +133,10 @@ function Login() {
             </div>
 
             <div>
-              <label htmlFor="password" className="form-label">
+              <label htmlFor="password" className="form-label" style={{color: 'darkblue'}}>
                 Password
               </label>
-              <div className="relative">
+              <div className="relative" style={{color: 'black'}}>
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Lock className="h-5 w-5 text-gray-400" />
                 </div>
