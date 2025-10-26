@@ -29,7 +29,7 @@ function Login() {
   useEffect(() => {
     if (error) {
       toast.error(error)
-      clearError()
+      // clearError()
     }
   }, [error, clearError])
 

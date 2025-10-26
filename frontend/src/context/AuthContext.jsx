@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authService } from '../services/authService'
+import toast from 'react-hot-toast'
+
 
 export const AuthContext = createContext()
 
@@ -34,21 +36,39 @@ export function AuthProvider({ children }) {
   const login = async (credentials) => {
     try {
       setError(null)
-      const res = await authService.login(credentials) // { success, message, data }
-      if (res.success && res.data?.token) {
-        const { token, user } = res.data
-        localStorage.setItem('token', token) // ✅ must store token
+
+      // Call backend login
+      const res = await authService.login(credentials)
+
+      // Determine where the token and user are
+      const token = res?.data?.token || res?.token
+      const user = res?.data?.user || res?.user
+
+      if (token && user) {
+        // Store token & user in localStorage
+        localStorage.setItem('token', token)
         localStorage.setItem('user', JSON.stringify(user))
+
+        // Update context state
         setUser(user)
+
+        // Navigate to dashboard
         navigate('/dashboard', { replace: true })
+        // toast.success('✅ Successfully logged in!')
       } else {
-        alert(`❌ ${res.message || 'Login failed'}`)
+        const message = res?.message || 'Login failed: invalid response from server'
+        setError(message)
+        toast.error(`❌ ${message}`)
       }
     } catch (err) {
-      console.error(err)
-      setError(err.message)
+      // Handles both Axios errors and unexpected errors
+      const message = err.response?.data?.message || err.message || 'Login failed'
+      console.error('Login error:', err)
+      setError(message)
+      toast.error(`❌ ${message}`)
     }
   }
+
 
   const register = async (userData) => {
     try {
