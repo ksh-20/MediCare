@@ -16,9 +16,10 @@ const navigation = [
 ]
 
 const aiFeatures = [
-  { name: 'AI Chatbot', to: '/chatbot', icon: Bot },
-  { name: 'Pill Scanner', to: '/pill-scanner', icon: Camera },
-  { name: 'Fall Detection', to: '/fall-detection', icon: Activity },
+  // { name: 'AI Dashboard', to: '/dashboard/ai', icon: Bot },
+  { name: 'AI Chatbot', to: '/dashboard/ai/chatbot', icon: Bot },
+  { name: 'Pill Scanner', to: '/dashboard/ai/pill', icon: Camera },
+  { name: 'Fall Detection', to: '/dashboard/ai/fall', icon: Activity },
 ]
 
 function Sidebar({ isOpen, onClose }) {
@@ -78,7 +79,9 @@ function Sidebar({ isOpen, onClose }) {
 
           {/* AI Features */}
           <div className="space-y-1 mt-8">
-            <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">AI Features</div>
+            <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              AI Features
+            </div>
             {aiFeatures.map(item => (
               <NavLink
                 key={item.name}
@@ -87,7 +90,7 @@ function Sidebar({ isOpen, onClose }) {
                   clsx(
                     'group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors duration-200',
                     isActive
-                      ? 'bg-blue-100 text-blue-900'
+                      ? 'bg-blue-200 text-blue-900 font-semibold' // active AI link style
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                   )
                 }

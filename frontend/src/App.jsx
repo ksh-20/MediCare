@@ -15,6 +15,13 @@ import MissedDoseAlerts from './components/adherence/MissedDoseAlerts'
 import AdherenceReport from './components/adherence/AdherenceReport'
 import ReportGenerator from './components/reports/ReportGenerator'
 import Layout from './components/layout/Layout'
+
+// AI Components
+import AIDashboard from './components/ai/AIDashboard'
+import ChatbotComponent from './components/ai/ChatbotComponent'
+import PillIdentificationComponent from './components/ai/PillIdentificationComponent'
+import FallDetectionComponent from './components/ai/FallDetectionComponent'
+
 import './styles/globals.css'
 
 function App() {
@@ -45,7 +52,7 @@ function App() {
         <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
           {/* Default redirect */}
           <Route index element={<Navigate to="/dashboard" replace />} />
-          
+
           {/* Dashboard */}
           <Route path="/dashboard" element={<Dashboard />} />
 
@@ -68,6 +75,12 @@ function App() {
 
           {/* Reports */}
           <Route path="/reports" element={<ReportGenerator />} />
+
+          {/* AI Dashboard and Components */}
+          <Route path="/dashboard/ai" element={<AIDashboard />} />
+          <Route path="/dashboard/ai/chatbot" element={<ChatbotComponent />} />
+          <Route path="/dashboard/ai/pill" element={<PillIdentificationComponent />} />
+          <Route path="/dashboard/ai/fall" element={<FallDetectionComponent />} />
         </Route>
 
         {/* Catch-all route */}
