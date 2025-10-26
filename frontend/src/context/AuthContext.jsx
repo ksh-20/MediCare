@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
   const [error, setError] = useState(null)
   const navigate = useNavigate()
 
-  // ✅ Verify token on mount
+  // ✅ Verify token on app mount
   useEffect(() => {
     const verifyUser = async () => {
       const token = localStorage.getItem('token')
@@ -21,6 +21,7 @@ export function AuthProvider({ children }) {
         } catch (err) {
           console.error('Token verification failed:', err.message)
           localStorage.removeItem('token')
+          localStorage.removeItem('user')
           setUser(null)
         }
       }
@@ -29,50 +30,51 @@ export function AuthProvider({ children }) {
     verifyUser()
   }, [])
 
-  // ✅ Login with fallback verify call
+  // AuthContext login
   const login = async (credentials) => {
     try {
       setError(null)
-      const res = await authService.login(credentials) // res = { success, message, data }
-
+      const res = await authService.login(credentials) // { success, message, data }
       if (res.success && res.data?.token) {
         const { token, user } = res.data
-        localStorage.setItem('token', token)
+        localStorage.setItem('token', token) // ✅ must store token
         localStorage.setItem('user', JSON.stringify(user))
         setUser(user)
-        alert('✅ Login successful!')
         navigate('/dashboard', { replace: true })
       } else {
         alert(`❌ ${res.message || 'Login failed'}`)
       }
     } catch (err) {
-      console.error('Login error:', err)
-      alert(`❌ ${err.message || 'Login failed'}`)
+      console.error(err)
       setError(err.message)
     }
   }
 
   const register = async (userData) => {
     try {
-      const data = await authService.register(userData)
-      alert('✅ Registered successfully! Please log in.')
-      navigate('/login', { replace: true })
-    } catch (error) {
-      alert(`❌ ${error.message}`)
-      setError(error.message)
+      const res = await authService.register(userData)
+      if (res.success) {
+        alert('✅ Registered successfully! Please log in.')
+        navigate('/login', { replace: true })
+      } else {
+        alert(`❌ ${res.message || 'Registration failed'}`)
+      }
+    } catch (err) {
+      console.error('Register error:', err)
+      alert(`❌ ${err.message || 'Registration failed'}`)
+      setError(err.message)
     }
   }
 
   const logout = () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('user')
     setUser(null)
     navigate('/login', { replace: true })
   }
 
   return (
-    <AuthContext.Provider
-      value={{ user, loading, error, login, register, logout }}
-    >
+    <AuthContext.Provider value={{ user, loading, error, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   )

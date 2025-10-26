@@ -24,7 +24,7 @@ export const authService = {
       const response = await api.get('/auth/verify', {
         headers: { Authorization: `Bearer ${token}` }
       })
-      return response.data.user
+      return response.data?.data?.user
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Token verification failed')
     }

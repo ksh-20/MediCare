@@ -18,19 +18,27 @@ api.interceptors.request.use(
     }
     return config
   },
-  (error) => {
-    return Promise.reject(error)
-  }
+  (error) => Promise.reject(error)
 )
 
-// Response interceptor to handle auth errors
+// Response interceptor to handle 401 errors for protected routes only
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const originalRequest = error.config
+
+    // Only handle 401 for requests other than login/register
+    if (
+      error.response?.status === 401 &&
+      !originalRequest.url.includes('/auth/login') &&
+      !originalRequest.url.includes('/auth/register') &&
+      !originalRequest.url.includes('/auth/verify')
+    ) {
       localStorage.removeItem('token')
-      window.location.href = '/login'
+      localStorage.removeItem('user')
+      window.location.href = '/login' // redirect to login for protected route failures
     }
+
     return Promise.reject(error)
   }
 )

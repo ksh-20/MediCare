@@ -41,33 +41,36 @@ function App() {
           element={user ? <Navigate to="/dashboard" replace /> : <Register />} 
         />
 
-        {/* Protected Routes */}
-        <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+        {/* Protected Routes wrapped in Layout */}
+        <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+          {/* Default redirect */}
           <Route index element={<Navigate to="/dashboard" replace />} />
-          <Route path="dashboard" element={<Dashboard />} />
           
+          {/* Dashboard */}
+          <Route path="/dashboard" element={<Dashboard />} />
+
           {/* Elderly Management */}
-          <Route path="elderly" element={<ElderlyList />} />
-          <Route path="elderly/new" element={<ElderlyForm />} />
-          <Route path="elderly/:id" element={<ElderlyDetails />} />
-          <Route path="elderly/:id/edit" element={<ElderlyForm />} />
-          
+          <Route path="/elderly" element={<ElderlyList />} />
+          <Route path="/elderly/new" element={<ElderlyForm />} />
+          <Route path="/elderly/:id" element={<ElderlyDetails />} />
+          <Route path="/elderly/:id/edit" element={<ElderlyForm />} />
+
           {/* Medication Management */}
-          <Route path="medications" element={<MedicationList />} />
-          <Route path="medications/new" element={<MedicationForm />} />
-          <Route path="medications/:id/edit" element={<MedicationForm />} />
-          <Route path="medications/schedule" element={<MedicationSchedule />} />
-          
+          <Route path="/medications" element={<MedicationList />} />
+          <Route path="/medications/new" element={<MedicationForm />} />
+          <Route path="/medications/:id/edit" element={<MedicationForm />} />
+          <Route path="/medications/schedule" element={<MedicationSchedule />} />
+
           {/* Adherence Tracking */}
-          <Route path="adherence" element={<AdherenceLog />} />
-          <Route path="adherence/alerts" element={<MissedDoseAlerts />} />
-          <Route path="adherence/reports" element={<AdherenceReport />} />
-          
+          <Route path="/adherence" element={<AdherenceLog />} />
+          <Route path="/adherence/alerts" element={<MissedDoseAlerts />} />
+          <Route path="/adherence/reports" element={<AdherenceReport />} />
+
           {/* Reports */}
-          <Route path="reports" element={<ReportGenerator />} />
+          <Route path="/reports" element={<ReportGenerator />} />
         </Route>
 
-        {/* Catch all route */}
+        {/* Catch-all route */}
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </div>
