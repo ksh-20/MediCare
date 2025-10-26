@@ -97,5 +97,16 @@ export const medicationService = {
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Failed to search medications')
     }
+  },
+
+  async getUpcomingMedications(elderlyId) {
+    try {
+      const response = await api.get(`/medications/upcoming`, {
+        params: { elderlyId } // optional: filter by elderly
+      })
+      return response.data
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to fetch upcoming medications')
+    }
   }
 }

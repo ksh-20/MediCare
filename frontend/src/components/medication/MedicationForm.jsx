@@ -3,11 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { medicationService } from '../../services/medicationService'
 import { elderlyService } from '../../services/elderlyService'
 import { validators } from '../../utils/validators'
-import { ArrowLeft, Save, Pill, Calendar, Clock, AlertCircle } from 'lucide-react'
+import { ArrowLeft, Save, Pill, Calendar, AlertCircle } from 'lucide-react'
 import { MEDICATION_FREQUENCIES, MEDICATION_UNITS } from '../../utils/constants'
 import toast from 'react-hot-toast'
 
-function MedicationForm() {
+const MedicationForm = () => {
   const navigate = useNavigate()
   const { id } = useParams()
   const isEdit = Boolean(id)
@@ -26,98 +26,85 @@ function MedicationForm() {
     notes: ''
   })
 
-  const [elderly, setElderly] = useState([])
+  const [elderly, setElderly] = useState([]) // ensure array
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    loadElderly()
-    if (isEdit) {
-      loadMedicationData()
+    const loadElderly = async () => {
+      try {
+        const data = await elderlyService.getAllElderly()
+        setElderly(Array.isArray(data) ? data : []) // safe array
+      } catch (error) {
+        console.error('Error loading elderly:', error)
+        toast.error('Failed to load elderly patients')
+        setElderly([])
+      }
     }
-  }, [id, isEdit])
 
-  const loadElderly = async () => {
-    try {
-      const data = await elderlyService.getAllElderly()
-      setElderly(data)
-    } catch (error) {
-      toast.error('Failed to load elderly patients')
-      console.error('Error loading elderly:', error)
-    }
-  }
-
-  const loadMedicationData = async () => {
-    try {
+    const loadMedication = async () => {
+      if (!isEdit) return
       setLoading(true)
-      const data = await medicationService.getMedicationById(id)
-      setFormData({
-        name: data.name || '',
-        description: data.description || '',
-        dosage: data.dosage || '',
-        unit: data.unit || 'mg',
-        frequency: data.frequency || 'once',
-        startDate: data.startDate ? data.startDate.split('T')[0] : '',
-        endDate: data.endDate ? data.endDate.split('T')[0] : '',
-        elderlyId: data.elderlyId || '',
-        instructions: data.instructions || '',
-        sideEffects: data.sideEffects || '',
-        notes: data.notes || ''
-      })
-    } catch (error) {
-      toast.error('Failed to load medication data')
-      console.error('Error loading medication:', error)
-    } finally {
-      setLoading(false)
+      try {
+        const med = await medicationService.getMedicationById(id)
+        setFormData({
+          name: med.name || '',
+          description: med.description || '',
+          dosage: med.dosage || '',
+          unit: med.unit || 'mg',
+          frequency: med.frequency || 'once',
+          startDate: med.startDate ? med.startDate.split('T')[0] : '',
+          endDate: med.endDate ? med.endDate.split('T')[0] : '',
+          elderlyId: med.elderlyId || '',
+          instructions: med.instructions || '',
+          sideEffects: med.sideEffects || '',
+          notes: med.notes || ''
+        })
+      } catch (error) {
+        console.error('Error loading medication:', error)
+        toast.error('Failed to load medication data')
+      } finally {
+        setLoading(false)
+      }
     }
-  }
+
+    loadElderly()
+    loadMedication()
+  }, [id, isEdit])
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-    
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }))
-    }
+    setFormData(prev => ({ ...prev, [name]: value }))
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }))
   }
 
   const validateForm = () => {
     const newErrors = {}
-    
+
     const nameError = validators.medicationName(formData.name)
     if (nameError !== true) newErrors.name = nameError
-    
+
     const dosageError = validators.dosage(formData.dosage)
     if (dosageError !== true) newErrors.dosage = dosageError
-    
+
     const elderlyError = validators.required(formData.elderlyId)
     if (elderlyError !== true) newErrors.elderlyId = elderlyError
-    
+
     const startDateError = validators.date(formData.startDate)
     if (startDateError !== true) newErrors.startDate = startDateError
-    
+
     if (formData.endDate) {
       const endDateError = validators.date(formData.endDate)
       if (endDateError !== true) newErrors.endDate = endDateError
     }
-    
+
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
-    if (!validateForm()) {
-      return
-    }
+    if (!validateForm()) return
 
     setLoading(true)
     try {
@@ -130,6 +117,7 @@ function MedicationForm() {
       }
       navigate('/medications')
     } catch (error) {
+      console.error('Error saving medication:', error)
       toast.error(error.message || 'Failed to save medication')
     } finally {
       setLoading(false)
@@ -165,6 +153,7 @@ function MedicationForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Basic Info */}
         <div className="card">
           <div className="card-header">
             <h3 className="text-lg font-medium text-gray-900">Basic Information</h3>
@@ -172,9 +161,7 @@ function MedicationForm() {
           <div className="card-body space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="form-group">
-                <label htmlFor="name" className="form-label">
-                  Medication Name *
-                </label>
+                <label htmlFor="name" className="form-label">Medication Name *</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Pill className="h-5 w-5 text-gray-400" />
@@ -191,16 +178,13 @@ function MedicationForm() {
                 </div>
                 {errors.name && (
                   <div className="flex items-center mt-1 text-sm text-red-600">
-                    <AlertCircle className="h-4 w-4 mr-1" />
-                    {errors.name}
+                    <AlertCircle className="h-4 w-4 mr-1" /> {errors.name}
                   </div>
                 )}
               </div>
 
               <div className="form-group">
-                <label htmlFor="elderlyId" className="form-label">
-                  Patient *
-                </label>
+                <label htmlFor="elderlyId" className="form-label">Patient *</label>
                 <select
                   id="elderlyId"
                   name="elderlyId"
@@ -209,95 +193,56 @@ function MedicationForm() {
                   onChange={handleChange}
                 >
                   <option value="">Select a patient</option>
-                  {elderly.map((patient) => (
-                    <option key={patient._id} value={patient._id}>
-                      {patient.firstName} {patient.lastName}
-                    </option>
+                  {Array.isArray(elderly) && elderly.map(p => (
+                    <option key={p._id} value={p._id}>{p.firstName} {p.lastName}</option>
                   ))}
                 </select>
                 {errors.elderlyId && (
                   <div className="flex items-center mt-1 text-sm text-red-600">
-                    <AlertCircle className="h-4 w-4 mr-1" />
-                    {errors.elderlyId}
+                    <AlertCircle className="h-4 w-4 mr-1" /> {errors.elderlyId}
                   </div>
                 )}
               </div>
             </div>
 
             <div className="form-group">
-              <label htmlFor="description" className="form-label">
-                Description
-              </label>
+              <label htmlFor="description" className="form-label">Description</label>
               <input
                 type="text"
                 id="description"
                 name="description"
                 className="form-input"
-                placeholder="Brief description of the medication"
+                placeholder="Brief description"
                 value={formData.description}
                 onChange={handleChange}
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="form-group">
-                <label htmlFor="dosage" className="form-label">
-                  Dosage *
-                </label>
-                <input
-                  type="text"
-                  id="dosage"
-                  name="dosage"
-                  className={`form-input ${errors.dosage ? 'error' : ''}`}
-                  placeholder="e.g., 10, 5ml"
-                  value={formData.dosage}
-                  onChange={handleChange}
-                />
-                {errors.dosage && (
-                  <div className="flex items-center mt-1 text-sm text-red-600">
-                    <AlertCircle className="h-4 w-4 mr-1" />
-                    {errors.dosage}
-                  </div>
-                )}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="unit" className="form-label">
-                  Unit
-                </label>
-                <select
-                  id="unit"
-                  name="unit"
-                  className="form-select"
-                  value={formData.unit}
-                  onChange={handleChange}
-                >
-                  {MEDICATION_UNITS.map((unit) => (
-                    <option key={unit} value={unit}>
-                      {unit}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="frequency" className="form-label">
-                  Frequency *
-                </label>
-                <select
-                  id="frequency"
-                  name="frequency"
-                  className="form-select"
-                  value={formData.frequency}
-                  onChange={handleChange}
-                >
-                  {MEDICATION_FREQUENCIES.map((freq) => (
-                    <option key={freq.value} value={freq.value}>
-                      {freq.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <input
+                type="text"
+                placeholder="Dosage *"
+                name="dosage"
+                value={formData.dosage}
+                onChange={handleChange}
+                className={`form-input ${errors.dosage ? 'error' : ''}`}
+              />
+              <select
+                name="unit"
+                value={formData.unit}
+                onChange={handleChange}
+                className="form-select"
+              >
+                {MEDICATION_UNITS.map(u => <option key={u} value={u}>{u}</option>)}
+              </select>
+              <select
+                name="frequency"
+                value={formData.frequency}
+                onChange={handleChange}
+                className="form-select"
+              >
+                {MEDICATION_FREQUENCIES.map(f => <option key={f.value} value={f.value}>{f.label}</option>)}
+              </select>
             </div>
           </div>
         </div>
@@ -307,133 +252,69 @@ function MedicationForm() {
           <div className="card-header">
             <h3 className="text-lg font-medium text-gray-900">Schedule</h3>
           </div>
-          <div className="card-body space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="form-group">
-                <label htmlFor="startDate" className="form-label">
-                  Start Date *
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Calendar className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    type="date"
-                    id="startDate"
-                    name="startDate"
-                    className={`form-input pl-10 ${errors.startDate ? 'error' : ''}`}
-                    value={formData.startDate}
-                    onChange={handleChange}
-                  />
+          <div className="card-body space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="startDate" className="form-label">Start Date *</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Calendar className="h-5 w-5 text-gray-400" />
                 </div>
-                {errors.startDate && (
-                  <div className="flex items-center mt-1 text-sm text-red-600">
-                    <AlertCircle className="h-4 w-4 mr-1" />
-                    {errors.startDate}
-                  </div>
-                )}
+                <input
+                  type="date"
+                  name="startDate"
+                  value={formData.startDate}
+                  onChange={handleChange}
+                  className={`form-input pl-10 ${errors.startDate ? 'error' : ''}`}
+                />
               </div>
-
-              <div className="form-group">
-                <label htmlFor="endDate" className="form-label">
-                  End Date
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Calendar className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    type="date"
-                    id="endDate"
-                    name="endDate"
-                    className={`form-input pl-10 ${errors.endDate ? 'error' : ''}`}
-                    value={formData.endDate}
-                    onChange={handleChange}
-                  />
+            </div>
+            <div>
+              <label htmlFor="endDate" className="form-label">End Date</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Calendar className="h-5 w-5 text-gray-400" />
                 </div>
-                {errors.endDate && (
-                  <div className="flex items-center mt-1 text-sm text-red-600">
-                    <AlertCircle className="h-4 w-4 mr-1" />
-                    {errors.endDate}
-                  </div>
-                )}
+                <input
+                  type="date"
+                  name="endDate"
+                  value={formData.endDate}
+                  onChange={handleChange}
+                  className={`form-input pl-10 ${errors.endDate ? 'error' : ''}`}
+                />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Instructions */}
+        {/* Instructions & Notes */}
         <div className="card">
           <div className="card-header">
             <h3 className="text-lg font-medium text-gray-900">Instructions & Notes</h3>
           </div>
           <div className="card-body space-y-4">
-            <div className="form-group">
-              <label htmlFor="instructions" className="form-label">
-                Instructions
-              </label>
-              <textarea
-                id="instructions"
-                name="instructions"
-                rows={3}
-                className="form-textarea"
-                placeholder="Enter specific instructions for taking this medication"
-                value={formData.instructions}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="sideEffects" className="form-label">
-                Side Effects
-              </label>
-              <textarea
-                id="sideEffects"
-                name="sideEffects"
-                rows={3}
-                className="form-textarea"
-                placeholder="List potential side effects to watch for"
-                value={formData.sideEffects}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="notes" className="form-label">
-                Additional Notes
-              </label>
-              <textarea
-                id="notes"
-                name="notes"
-                rows={3}
-                className="form-textarea"
-                placeholder="Any additional notes about this medication"
-                value={formData.notes}
-                onChange={handleChange}
-              />
-            </div>
+            {['instructions', 'sideEffects', 'notes'].map(field => (
+              <div key={field} className="form-group">
+                <label htmlFor={field} className="form-label">{field.charAt(0).toUpperCase() + field.slice(1)}</label>
+                <textarea
+                  id={field}
+                  name={field}
+                  rows={3}
+                  className="form-textarea"
+                  value={formData[field]}
+                  onChange={handleChange}
+                />
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Actions */}
         <div className="flex justify-end space-x-4">
-          <button
-            type="button"
-            onClick={() => navigate('/medications')}
-            className="btn btn-secondary"
-          >
+          <button type="button" onClick={() => navigate('/medications')} className="btn btn-secondary">
             Cancel
           </button>
-          <button
-            type="submit"
-            disabled={loading}
-            className="btn btn-primary flex items-center"
-          >
-            {loading ? (
-              <div className="loading mr-2"></div>
-            ) : (
-              <Save className="h-4 w-4 mr-2" />
-            )}
+          <button type="submit" disabled={loading} className="btn btn-primary flex items-center">
+            {loading ? <div className="loading mr-2"></div> : <Save className="h-4 w-4 mr-2" />}
             {isEdit ? 'Update Medication' : 'Create Medication'}
           </button>
         </div>
