@@ -1,4 +1,4 @@
-# MediCare Assist - Medicine Reminder System For Elderly People
+# MediCare - Medicine Reminder System For Elderly People
 
 A comprehensive caregiver-managed web application that ensures timely medication intake for elderly individuals through automated reminders and AI-powered features.
 
@@ -36,6 +36,7 @@ A comprehensive caregiver-managed web application that ensures timely medication
 ### Frontend
 - **React.js** - UI framework
 - **CSS** - UI Styling
+- **Tailwind CSS** - Advanced UI Styling
 - **Recharts** - Data visualization
 - **Howler.js** - Audio management
 - **react-pdf** - Report generation
@@ -48,9 +49,10 @@ A comprehensive caregiver-managed web application that ensures timely medication
 
 ### AI Services
 - **Python + FastAPI** - AI service layer
-- **Transformers (Hugging Face)** - NLP
-- **OpenCV + Google Vision** - Computer vision
-- **TensorFlow** - ML models
+- **Transformers (Hugging Face)** - Natural Language Processing Chatbot
+- **Gemini API** - Advanced Chatbot
+- **OpenCV + Google Vision** - Computer Vision
+- **TensorFlow** - Machine Learning Model
 - **Librosa** - Audio processing
 
 ### Deployment
@@ -76,6 +78,7 @@ medicare-assist/
 - MongoDB
 - Twilio account
 - Google Cloud Vision API key
+- Google Gemini API key
 
 ### Installation
 
@@ -172,13 +175,15 @@ medicare-assist/
    cd backend
    npm run dev
    
-   # Terminal 3 - AI Services
+   # Terminal 3 - NLP Service
    cd ai-services/chatbot
    python app.py
-   
+
+   # Terminal 4 - CV Service
    cd ../pill-identification
    python app.py
    
+   # Terminal 5 - ML Service
    cd ../fall-detection
    python app.py
    ```
