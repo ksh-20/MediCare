@@ -92,7 +92,7 @@ const ChatbotComponent = () => {
                   {msg.sender === "user"
                     ? "You"
                     : msg.sender === "bot"
-                    ? "Gemini Assistant"
+                    ? "AI Assistant"
                     : "System"}
                 </p>
                 <div className="text-sm leading-relaxed whitespace-pre-wrap">
@@ -109,7 +109,7 @@ const ChatbotComponent = () => {
           <input
             type="text"
             className="flex-1 p-4 bg-white text-gray-900 rounded-full border-2 border-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-500 transition duration-150 placeholder-gray-500"
-            placeholder={loading ? "Gemini is thinking..." : "Type your message..."}
+            placeholder={loading ? "Assistant is thinking..." : "Type your message..."}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyPress}
