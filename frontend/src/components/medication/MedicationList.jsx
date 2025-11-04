@@ -119,6 +119,7 @@ function MedicationList() {
               className="form-input pl-10"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              style={{color: "black"}}
             />
           </div>
         </div>
@@ -127,6 +128,7 @@ function MedicationList() {
             className="form-select"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
+            style={{color: "black"}}
           >
             <option value="all">All Status</option>
             <option value="active">Active</option>

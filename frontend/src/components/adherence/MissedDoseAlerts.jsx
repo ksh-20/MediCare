@@ -137,6 +137,7 @@ const MissedDoseAlerts = () => {
             value={filters.severity}
             onChange={e => setFilters({ ...filters, severity: e.target.value })}
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            style={{color: "black"}}
           >
             <option value="all">All Severities</option>
             <option value="critical">Critical</option>
@@ -152,6 +153,7 @@ const MissedDoseAlerts = () => {
             value={filters.elderlyId}
             onChange={e => setFilters({ ...filters, elderlyId: e.target.value })}
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            style={{color: "black"}}
           >
             <option value="all">All Patients</option>
             {elderly.map(p => (
@@ -166,6 +168,7 @@ const MissedDoseAlerts = () => {
             value={filters.timeRange}
             onChange={e => setFilters({ ...filters, timeRange: e.target.value })}
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            style={{color: "black"}}
           >
             <option value="1h">Last Hour</option>
             <option value="24h">Last 24 Hours</option>

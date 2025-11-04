@@ -86,7 +86,7 @@ const AdherenceLog = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" style={{color: "black"}}></div>
       </div>
     )
   }
@@ -103,6 +103,7 @@ const AdherenceLog = () => {
             value={filters.elderlyId}
             onChange={(e) => setFilters({ ...filters, elderlyId: e.target.value })}
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            style={{color: "black"}}
           >
             <option value="all">All Patients</option>
             {(Array.isArray(elderly) ? elderly : []).map(patient => (
@@ -119,6 +120,7 @@ const AdherenceLog = () => {
             value={filters.status}
             onChange={(e) => setFilters({ ...filters, status: e.target.value })}
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            style={{color: "black"}}
           >
             <option value="all">All Status</option>
             <option value="taken">Taken</option>
@@ -135,6 +137,7 @@ const AdherenceLog = () => {
             value={filters.startDate}
             onChange={(e) => setFilters({ ...filters, startDate: e.target.value })}
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            style={{color: "black"}}
           />
         </div>
 
@@ -145,6 +148,7 @@ const AdherenceLog = () => {
             value={filters.endDate}
             onChange={(e) => setFilters({ ...filters, endDate: e.target.value })}
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            style={{color: "black"}}
           />
         </div>
       </div>
@@ -159,7 +163,7 @@ const AdherenceLog = () => {
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
-                <tr>
+                <tr style={{color: "black"}}>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Patient</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Medication</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Scheduled Time</th>

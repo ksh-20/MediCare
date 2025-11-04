@@ -127,6 +127,7 @@ const ReportGenerator = () => {
                 value={selectedElderly}
                 onChange={(e) => setSelectedElderly(e.target.value)}
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                style={{color: "black"}}
               >
                 <option value="all">All Patients</option>
                 {Array.isArray(elderly) && elderly.map(patient => (
@@ -144,6 +145,7 @@ const ReportGenerator = () => {
                 value={reportType}
                 onChange={(e) => setReportType(e.target.value)}
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                style={{color: "black"}}
               >
                 <option value="adherence">Adherence Report</option>
                 <option value="medication">Medication Report</option>
@@ -160,6 +162,7 @@ const ReportGenerator = () => {
                 value={dateRange.startDate}
                 onChange={(e) => setDateRange({...dateRange, startDate: e.target.value})}
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                style={{color: "black"}}
               />
             </div>
 
@@ -171,6 +174,7 @@ const ReportGenerator = () => {
                 value={dateRange.endDate}
                 onChange={(e) => setDateRange({...dateRange, endDate: e.target.value})}
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                style={{color: "black"}}
               />
             </div>
           </div>

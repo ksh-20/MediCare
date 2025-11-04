@@ -97,6 +97,7 @@ function ElderlyList() {
             className="form-input pl-10"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            style={{color: "black"}}
           />
         </div>
       </div>
