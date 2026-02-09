@@ -314,3 +314,13 @@ body {
     border-color: var(--gray-200);
   }
 }
+
+/* Sidebar visibility fix - ensure sidebar is visible on desktop */
+@media (min-width: 1024px) {
+  .sidebar-container {
+    position: static !important;
+    transform: translateX(0) !important;
+    translate: 0 0 !important;  /* TailwindCSS v4 uses translate property */
+  }
+}
+

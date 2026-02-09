@@ -35,7 +35,7 @@ function Layout() {
         onToggleDarkMode={toggleDarkMode}
       />
 
-      <div className="flex">
+      <div className="flex" style={{ minHeight: 'calc(100vh - 4rem)' }}>
         {/* Sidebar */}
         <Sidebar 
           isOpen={sidebarOpen}
@@ -44,7 +44,7 @@ function Layout() {
         />
 
         {/* Main content */}
-        <main className="flex-1 lg:ml-64 transition-colors duration-300">
+        <main className="flex-1 lg:ml-64 transition-colors duration-300" style={{ width: '100%' }}>
           <div className="py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <Outlet />
