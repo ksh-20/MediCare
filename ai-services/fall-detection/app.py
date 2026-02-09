@@ -21,10 +21,12 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS middleware
+# CORS middleware - Use environment variable for allowed origins
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Configure appropriately for production
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -71,7 +73,12 @@ class TrainingRequest(BaseModel):
 # Health check endpoint
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "service": "fall-detection"}
+    return {
+        "status": "healthy",
+        "service": "fall-detection",
+        "version": "1.0.0",
+        "active_connections": len(active_connections)
+    }
 
 # WebSocket endpoint for real-time monitoring
 @app.websocket("/ws/{elderly_id}")
@@ -118,6 +125,10 @@ async def process_audio(file: UploadFile = File(...), elderly_id: str = None):
         
         # Read audio data
         audio_data = await file.read()
+        
+        # Validate file size (max 50MB for audio)
+        if len(audio_data) > 50 * 1024 * 1024:
+            raise HTTPException(status_code=413, detail="Audio file too large. Maximum size is 50MB")
         
         # Process audio for fall detection
         fall_result = await audio_detector.process_audio(audio_data)
@@ -299,9 +310,10 @@ async def process_websocket_audio():
         except Exception as e:
             print(f"Error in background audio processing: {e}")
 
-# Start background task
+# Startup validation
 @app.on_event("startup")
 async def startup_event():
+    print(f"✅ Fall Detection service started with CORS origins: {ALLOWED_ORIGINS}")
     asyncio.create_task(process_websocket_audio())
 
 if __name__ == "__main__":

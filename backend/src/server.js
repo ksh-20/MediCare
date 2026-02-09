@@ -133,10 +133,7 @@ app.use('*', (req, res) => {
 app.use(errorHandler)
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/medicare-assist', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/medicare-assist')
 .then(() => {
   console.log('Connected to MongoDB')
 })

@@ -18,10 +18,12 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS middleware
+# CORS middleware - Use environment variable for allowed origins
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Configure appropriately for production
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -58,7 +60,16 @@ class PillSearchRequest(BaseModel):
 # Health check endpoint
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "service": "pill-identification"}
+    return {
+        "status": "healthy",
+        "service": "pill-identification",
+        "version": "1.0.0"
+    }
+
+# Startup validation
+@app.on_event("startup")
+async def validate_config():
+    print(f"✅ Pill Identification service started with CORS origins: {ALLOWED_ORIGINS}")
 
 # Identify pill from uploaded image
 @app.post("/identify", response_model=PillIdentificationResponse)
@@ -70,6 +81,10 @@ async def identify_pill(file: UploadFile = File(...)):
         
         # Read image data
         image_data = await file.read()
+        
+        # Validate file size (max 10MB)
+        if len(image_data) > 10 * 1024 * 1024:
+            raise HTTPException(status_code=413, detail="File too large. Maximum size is 10MB")
         
         # Process image
         processed_image = image_processor.preprocess_image(image_data)

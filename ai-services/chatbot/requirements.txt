@@ -11,4 +11,4 @@ python-dotenv
 scikit-learn
 nltk
 spacy
-google-genai
+google-generativeai

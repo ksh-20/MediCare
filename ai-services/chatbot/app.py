@@ -5,7 +5,7 @@ from typing import List, Optional, Dict, Any, Union
 import uvicorn
 import os
 from dotenv import load_dotenv
-from google import genai 
+import google.generativeai as genai
 
 from chatbot_model import MedicationChatbot
 from drug_database import DrugDatabase
@@ -17,7 +17,7 @@ load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Initialize Gemini client
-client = genai.Client(api_key=GEMINI_API_KEY)
+genai.configure(api_key=GEMINI_API_KEY)
 
 app = FastAPI(
     title="MediCare Assist Chatbot API",
@@ -25,10 +25,12 @@ app = FastAPI(
     version="1.1.0"
 )
 
-# CORS
+# CORS - Use environment variable for allowed origins
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -70,9 +72,9 @@ async def chat(request: ChatRequest):
         # Step 3: If your model’s confidence is low → use Gemini
         if response["confidence"] < 0.5 or not response.get("message"):
             print("⚠️ Low confidence — calling Gemini API")
-            gemini_reply = client.models.generate_content(
-                model="models/gemini-2.0-flash",
-                contents=f"You are a friendly and accurate medical assistant. {user_message}"
+            model = genai.GenerativeModel('gemini-2.0-flash-exp')
+            gemini_reply = model.generate_content(
+                f"You are a friendly and accurate medical assistant. {user_message}"
             )
             response["message"] = gemini_reply.text
             response["confidence"] = 0.95  # Assume strong confidence for Gemini
@@ -90,7 +92,19 @@ async def chat(request: ChatRequest):
 # Health check
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "service": "chatbot (Gemini integrated)"}
+    return {
+        "status": "healthy",
+        "service": "chatbot (Gemini integrated)",
+        "gemini_api": "configured" if GEMINI_API_KEY else "missing",
+        "version": "1.1.0"
+    }
+
+# Startup validation
+@app.on_event("startup")
+async def validate_config():
+    if not GEMINI_API_KEY:
+        print("⚠️ WARNING: GEMINI_API_KEY environment variable is not set")
+    print(f"✅ Chatbot service started with CORS origins: {ALLOWED_ORIGINS}")
     
 
 if __name__ == "__main__":
