@@ -5,28 +5,33 @@ A comprehensive caregiver-managed web application that ensures timely medication
 ## Features
 
 ### 🏥 Caregiver Portal
+
 - Secure authentication with JWT
 - Create and manage personalized medication schedules
 - View adherence logs and missed-dose alerts
 - Real-time dashboard with statistics
 
 ### 🔔 Automated Reminders
+
 - SMS reminders via Twilio API
 - Browser audio alarms using Howler.js
 - Offline-capable reminder system
 
 ### 📊 Real-Time Tracking
+
 - Automatic medication adherence logging
 - Instant missed-dose alerts to caregivers
 - Comprehensive reporting system
 
 ### 🤖 AI-Powered Features
+
 - Natural language chatbot for medication queries
 - Pill identification using computer vision
 - Audio-based fall detection
 - Distress keyword detection
 
 ### 🔒 Security & Compliance
+
 - HIPAA-compliant data encryption
 - Role-based access control
 - Secure API endpoints
@@ -34,6 +39,7 @@ A comprehensive caregiver-managed web application that ensures timely medication
 ## Tech Stack
 
 ### Frontend
+
 - **React.js** - UI framework
 - **CSS** - UI Styling
 - **Tailwind CSS** - Advanced UI Styling
@@ -42,12 +48,14 @@ A comprehensive caregiver-managed web application that ensures timely medication
 - **react-pdf** - Report generation
 
 ### Backend
+
 - **Node.js + Express.js** - API server
 - **MongoDB** - Database
 - **JWT** - Authentication
 - **Twilio** - SMS service
 
 ### AI Services
+
 - **Python + FastAPI** - AI service layer
 - **Transformers (Hugging Face)** - Natural Language Processing Chatbot
 - **Gemini API** - Advanced Chatbot
@@ -56,6 +64,7 @@ A comprehensive caregiver-managed web application that ensures timely medication
 - **Librosa** - Audio processing
 
 ### Deployment
+
 - **Vercel** - Frontend hosting
 - **Render** - Backend hosting
 
@@ -66,13 +75,14 @@ medicare-assist/
 ├── frontend/          # React.js Frontend
 ├── backend/           # Node.js + Express Backend
 ├── ai-services/       # Python AI/ML Services
-├── database/          # Database schemas and seed data       
+├── database/          # Database schemas and seed data
 └── docs/              # Documentation
 ```
 
 ## Quick Start
 
 ### Prerequisites
+
 - Node.js (v16+)
 - Python (v3.8+)
 - MongoDB
@@ -83,20 +93,25 @@ medicare-assist/
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/ksh-20/MediCare
    cd medicare-assist
    ```
 
 2. **Install Frontend Dependencies**
+
    ```bash
    cd frontend
    npm install
    npm install @react-pdf/renderer
    npm install react-hot-toast --legacy-peer-deps
    npm install -D tailwindcss postcss autoprefixer
+   npm install -D @vitejs/plugin-react@latest
+   npm install -D @tailwindcss/postcss
    npx tailwindcss init -p
    ```
+
    Add the following to top of src/styles/globals.css
 
    ```bash
@@ -111,8 +126,8 @@ medicare-assist/
    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
    ```
 
-
 3. **Install Backend Dependencies**
+
    ```bash
    cd ../backend
    npm install
@@ -120,19 +135,20 @@ medicare-assist/
    ```
 
 4. **Install AI Services Dependencies**
+
    ```bash
    cd ../ai-services/chatbot
    pip install -r requirements.txt
-   
+
    cd ../pill-identification
    pip install -r requirements.txt
-   
+
    cd ../fall-detection
    pip install -r requirements.txt
    ```
 
 5. **Environment Setup**
-   
+
    Backend env - Replace '...' with actual values, use the following command to generate jwt secret and refresh secret tokens(run it once for each)
 
    ```bash
@@ -148,8 +164,8 @@ medicare-assist/
    TWILIO_ACCOUNT_SID=...
    TWILIO_AUTH_TOKEN=...
    TWILIO_PHONE_NUMBER=...
-   CHATBOT_SERVICE_URL=http://localhost:8001 
-   PILL_ID_SERVICE_URL=http://localhost:8002 
+   CHATBOT_SERVICE_URL=http://localhost:8001
+   PILL_ID_SERVICE_URL=http://localhost:8002
    FALL_DETECTION_SERVICE_URL=http://localhost:8003
    GEMINI_API_KEY=...
    ```
@@ -166,15 +182,16 @@ medicare-assist/
    ```
 
 6. **Start Development Servers**
+
    ```bash
    # Terminal 1 - Frontend
    cd frontend
    npm run dev
-   
+
    # Terminal 2 - Backend
    cd backend
    npm run dev
-   
+
    # Terminal 3 - NLP Service
    cd ai-services/chatbot
    python app.py
@@ -182,7 +199,7 @@ medicare-assist/
    # Terminal 4 - CV Service
    cd ../pill-identification
    python app.py
-   
+
    # Terminal 5 - ML Service
    cd ../fall-detection
    python app.py
@@ -203,7 +220,6 @@ medicare-assist/
 3. Commit your changes
 4. Push to the branch
 5. Create a Pull Request
-
 
 ## Support
 
