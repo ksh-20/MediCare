@@ -120,7 +120,7 @@ medicare-assist/
    @tailwind utilities;
    ```
 
-   Add the following line after the meta tags to the index.html file
+   Add the following line after the meta tags to the index.html file for tailwind browser
 
    ```bash
    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
